@@ -2,6 +2,8 @@ import {body} from "express-validator"
 import { validateErrors } from "./validate.errosr.js"
 import { existUsername, exitsCategory } from "../helpers/db.validators.js"
 
+
+//Category validations
 export const categoryValidate= [
     body('name', 'name is required')
     .notEmpty().custom(exitsCategory),
@@ -16,6 +18,8 @@ export const categoryUpdateValidate= [
     .optional().notEmpty(),
     validateErrors
 ]
+
+//UsersValidators
 
 export const registerValidator = [
     body('name', 'Name cannot be empty')
@@ -57,3 +61,32 @@ export const userUpdateValidator = [
         .isMobilePhone(),
     validateErrors
 ]
+
+//Products Validations
+
+export const productsValidator = [
+body('name', 'Name cannot be empty')
+    .notEmpty().toLowerCase(),
+body('price', 'price cannot be empty')
+    .notEmpty(),
+body('description', 'description cannot be empty')
+    .notEmpty(),
+body('stock','stock cannot be empty')
+    .notEmpty(),
+body('category','category cannot be empty')
+    .notEmpty
+]
+
+export const productsUpdateValidator = [
+    body('name', 'Name cannot be empty')
+        .optional().notEmpty().toLowerCase(),
+    body('price', 'price cannot be empty')
+        .optional().notEmpty(),
+    body('description', 'description cannot be empty')
+        .optional().notEmpty(),
+    body('stock','stock cannot be empty')
+        .optional().notEmpty(),
+    body('category','category cannot be empty')
+        .optional().notEmpty
+    ]
+    

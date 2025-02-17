@@ -34,11 +34,44 @@ export const getAllProducts = async(req, res)=>{
 
 export const getAproduct = async(req,res)=>{
     try{
+        let {id} = req.body
+        let product = await Products.findOne(id)
+        if(!product)return res.status(404).send({message: 'Product not found'})
 
+            return res.send({message: 'Product found:', product})
     }catch(err){
         console.error(err)
         return res.send({
             message:'General error', err
+        })
+    }
+}
+
+export const updateProducto = async (req,res)=>{
+    try{
+        let id = req.body
+        let updatedproduct = await Products.findByIdAndUpdate(id)
+        if(!updatedproduct ) return res.status(404).send({message: 'Product not found'})
+            return res.send({message: 'product updated: ', updatedproduct})
+    }catch(err){
+        console.error(err)
+        return res.send({
+            message: ' General error',err
+        })
+    }
+
+}
+
+export const deleteProduct = async(req,res)=>{
+    try{
+        let id = req.body.id
+        let deleteProduct = await Products.findByIdAndDelete(id)
+        if(!deleteProduct) return res.status(404).send({message: 'product not found '})
+           return res.send({message: 'Product deleted: ', deleteProduct}) 
+    }catch(err){
+        console.error(err)
+        return res.send({
+            message: ' General error', err
         })
     }
 }

@@ -1,4 +1,5 @@
 import Category from './category.model.js'
+import Products from '../products/products.model.js'
 
 export const createCategory = async (req, res) => {
     try {
@@ -44,11 +45,24 @@ export const updateCategory = async (req, res) => {
     }
 }
 
+export const defaultCategory = async()=>{
+    let defaultCategory = await Category.findOne({name:'Default'})
+    if(!defaultCategory){
+        defaultCategory = await Category.create({
+            name: 'Default',
+            description: 'Default category'
+        })
+    }
+}
+
 export const deleteCategory = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.body
+        let defaultCategory = await Category.findOne({name: 'Default'})
+        if(defaultCategory._id == id)return res.status(400).send({message: 'You can not delete the default Category'})
         const category = await Category.findByIdAndDelete(id)
         if (!category) return res.status(404).send({ message: 'Category not found', success: false })
+        await Products.updateMany({category: id},{category: defaultCategory._id})
         return res.send({ message: 'Category deleted successfully', category })
     } catch (err) {
         console.error(err)

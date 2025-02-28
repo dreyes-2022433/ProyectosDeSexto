@@ -1,5 +1,6 @@
 import Products from './products.model.js'
 
+
 export const addProducts = async(req,res)=>{
     try{
         let data = req.body
@@ -43,6 +44,18 @@ export const getAproduct = async(req,res)=>{
         console.error(err)
         return res.send({
             message:'General error', err
+        })
+    }
+}
+
+export const verifyStock = async(req,res)=>{
+    try{
+        let stock = await Products.find({stock: 0})
+        return res.send({message: 'Products out of stock:', stock})
+    }catch(err){
+        console.error(err)
+        return res.send({
+            message: 'General error',err
         })
     }
 }

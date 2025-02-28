@@ -65,3 +65,20 @@ export const deleteUser = async(req, res)=>{
     }
 
 }
+
+//Creacion del administrador
+
+export const createAdmin = async()=>{
+    let admin = await User.findOne({username: 'dreyes'})
+    if(!admin)
+        admin = await User.create({
+        name: 'Diego ',
+        surname: 'Reyes',
+        username: 'dreyes',
+        email: 'dreyes-2022433@kinal.edu.gt',
+        password : 'Diego-10.!',
+        phone : '32124569',
+        role: 'ADMIN'
+    })
+    
+}

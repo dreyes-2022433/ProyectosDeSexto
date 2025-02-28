@@ -11,8 +11,8 @@ const cartSchema = new Schema({
         required: [true, 'User is required']
     },
     products: [{
-        type: Schema.Types.ObjectId,
-        ref: 'product',
+        product: {type: Schema.Types.ObjectId,ref:'Product'},
+        quantity: {type: Number,default:1}
     }],
     total: {
         type: Number,

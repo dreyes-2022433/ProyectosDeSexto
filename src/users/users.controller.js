@@ -70,13 +70,14 @@ export const deleteUser = async(req, res)=>{
 
 export const createAdmin = async()=>{
     let admin = await User.findOne({username: 'dreyes'})
+    let passEncryp = await encrypt('Diego-15.!')
     if(!admin)
         admin = await User.create({
         name: 'Diego ',
         surname: 'Reyes',
         username: 'dreyes',
         email: 'dreyes-2022433@kinal.edu.gt',
-        password : 'Diego-10.!',
+        password : passEncryp,
         phone : '32124569',
         role: 'ADMIN'
     })

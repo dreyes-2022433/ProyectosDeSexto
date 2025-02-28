@@ -74,7 +74,8 @@ body('description', 'description cannot be empty')
 body('stock','stock cannot be empty')
     .notEmpty(),
 body('category','category cannot be empty')
-    .notEmpty
+    .notEmpty(),
+    validateErrors
 ]
 
 export const productsUpdateValidator = [
@@ -87,6 +88,7 @@ export const productsUpdateValidator = [
     body('stock','stock cannot be empty')
         .optional().notEmpty(),
     body('category','category cannot be empty')
-        .optional().notEmpty
+        .optional().notEmpty(),
+        validateErrors
     ]
     

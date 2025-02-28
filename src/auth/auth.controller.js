@@ -1,7 +1,9 @@
 
 import User from "../users/users.model.js"
+import Cart from "../cart/cart.model.js"
 import { checkPassword, encrypt } from '../../utils/encrypt.js'
 import { generateJwt } from '../../utils/jwt.js'
+
 
 export const register = async(req, res)=>{
     try{
@@ -16,6 +18,9 @@ export const register = async(req, res)=>{
         //Guardar
         await user.save()
         //Responder al usuario
+        let cartUser = await new Cart({user:user._id})
+
+        await cartUser.save()
         return res.send({message: `Registered successfully, can be logged with username: ${user.username}`})
     }catch(err){
         console.error(err)

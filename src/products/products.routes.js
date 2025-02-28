@@ -3,7 +3,6 @@ import {
     addProducts,
     deleteProduct,
     getAllProducts,
-    getAproduct,
     updateProducto
     
 } from './products.controller.js'
@@ -14,9 +13,7 @@ const api = Router ()
 
 api.post('/',[validateJwt, verifyAdminRole, productsValidator], addProducts)
 
-api.get('/',[validateJwt,verifyAdminRole],getAllProducts)
-
-api.get('/BuscarProductos',[validateJwt,verifyAdminRole], getAproduct)
+api.get('/',[validateJwt],getAllProducts)
 
 api.delete('/',[validateJwt,verifyAdminRole] ,deleteProduct)
 

@@ -19,14 +19,14 @@ api.get('/',[
 
 ], getAllCategories)
 
-api.put('/:id', [
+api.put('/', [
     validateJwt,
     verifyAdminRole,
     categoryUpdateValidate,
 
 ],updateCategory)
 
-api.delete('/:id',[
+api.delete('/',[
     validateJwt,
     verifyAdminRole,
 ], deleteCategory)

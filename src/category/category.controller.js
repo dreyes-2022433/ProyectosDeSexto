@@ -33,7 +33,7 @@ export const getAllCategories = async (req, res) => {
 
 export const updateCategory = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.body
         let data = req.body
 
         const category = await Category.findByIdAndUpdate(id, data, { new: true })
@@ -54,6 +54,8 @@ export const defaultCategory = async()=>{
         })
     }
 }
+
+
 
 export const deleteCategory = async (req, res) => {
     try {

@@ -11,26 +11,19 @@ const factureSchema = new Schema({
         ref: 'User',
         required: [true, 'Client is required']
     },  
+    products: [{
+        product: {type: Schema.Types.ObjectId,ref:'Product'},
+        quantity: {type: Number,default:1}
+    }],
+    total: {
+        type: Number,
+        maxLength: [10, `Can't be overcome 10 characters`],
+        default: 0
+    },
     description: {
         type: String,
         required: [true, 'Description is required'],
         maxLength: [75, `Can't be overcome 75 characters`],
-    },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'User is required']
-    },
-    products: [{
-        type: Schema.Types.ObjectId,
-        ref: 'product',
-        required: [true, 'product is required']
-    }],
-    total: {
-        type: Number,
-        required: [true, 'Total is required'],
-        maxLength: [10, `Can't be overcome 10 characters`],
-        default: 0
     },
 })
 

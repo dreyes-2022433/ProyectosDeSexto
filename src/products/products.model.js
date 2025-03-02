@@ -26,7 +26,8 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Category',
         required: [true, 'Category is required']
-    }
+    },
+    updateCount: { type: Number, default: 0 },
 })
 
 export default model('Product', productSchema)

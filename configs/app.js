@@ -9,6 +9,7 @@ import categoryRoutes from "../src/category/category.routes.js"
 import userRoutes from "../src/users/users.routes.js"
 import productsRoutes from "../src/products/products.routes.js"
 import cartRoutes from '../src/cart/cart.routes.js'
+import factureRoutes from '../src/factures/factures.routes.js'
 
 const configs = app => {
     app.use(express.json())
@@ -25,6 +26,7 @@ const routes = (app) => {
     app.use('/v1/user/', userRoutes)
     app.use('/v1/product/',productsRoutes)
     app.use('/v1/cart',cartRoutes)
+    app.use('/v1/facture',factureRoutes)
 }
 
 export const initServer = async()=>{

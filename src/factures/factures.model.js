@@ -25,6 +25,10 @@ const factureSchema = new Schema({
         required: [true, 'Description is required'],
         maxLength: [75, `Can't be overcome 75 characters`],
     },
+    status :{
+        type : Boolean,
+        default: true
+    }
 })
 
 export default model('Facture', factureSchema)

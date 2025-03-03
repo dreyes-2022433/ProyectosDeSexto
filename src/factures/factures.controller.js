@@ -21,11 +21,7 @@ export const generateFacture = async(req,res)=>{
             let product= await Product.findByIdAndUpdate(idproduct)
             if(product.stock< quantity){
                 facture.status = false
-                facture.save()
-                cartStuff.products = []
-                cartStuff.total= 0
-                await cartStuff.save()
-                return res.send({message:'The products that you selected, were taked, contact with an admin'})
+                return res.send({message:`The products that you selected, were taked, the amount of stock is ${product.stock}`})
                 
             }
             if (product) {
@@ -51,17 +47,25 @@ export const updateFacture = async(req,res)=>{
     try{
         let id = req.body.id
         let dataP = req.body.product
-        let dataQ = req.body.quantity
+        let dataQ = parseInt(req.body.quantity)
         let numeroDeproducto = req.body.numeroDeproducto
         let facture = await Facture.findById(id)
         if(!facture) return res.send({message: 'The facture does not exist'})
-            if(!facture.status==false) return res.send({message:'there were no problems with this facture, you cannot update it'})
-                //Unicamente para cambiar cantidad o borrarlo
-          facture.products[numeroDeproducto].set({product:dataP,quantity:dataQ})
+    
+                //ingresa si le quita o le suma 
+                let newQuantity = parseInt(facture.products[numeroDeproducto].quantity +(dataQ))
+                //valida los valores para que no sean negativos y el stock
+                if(newQuantity<0) return res.send({message:'You cannot remove more than you have on your cart'})
+        
+                //le coloca a los productos los parametros que le vamos a actualizar
+          facture.products[numeroDeproducto].set({product:dataP,quantity:newQuantity})
           let product = await Product.findOne({_id:facture.products[numeroDeproducto].product._id})
-          product.stock -= dataQ
+          if(newQuantity>product.stock)  return res.send({message:`The current produc stock is: ${product.stock}`})
+          //Actualizamos el stock
+          product.stock = product.stock -(dataQ)
           product.save()
           facture.status = true
+          facture.total += product.price*(dataQ)
           facture.save()
         return res.send({message: 'your new facture', facture})
     }catch(err){

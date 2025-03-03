@@ -27,6 +27,7 @@ export const updateCart = async(req,res)=>{
             return res.send({message: 'We apologize, we ran out of this product'})
         if(product.stock<quantity)
              return res.send({message:`we only count with this amount of products:  ${product.stock}`})
+        
         const cartW = await Cart.findOne({user: idUser})
         if(!cartW) return res.status(404).send({message: 'Not cart found'})
             //si el producto ya esta en el carro
@@ -34,6 +35,9 @@ export const updateCart = async(req,res)=>{
         if(existingProductIndex !== -1){
              cartW.products[existingProductIndex].quantity += quantity   
              //Si no hay suficente stock  
+             if(cartW.products[existingProductIndex].quantity<0){
+                return res.send({message:'you cannot request negative product'})
+             }
              if(cartW.products[existingProductIndex].quantity>product.stock){ 
                 return res.send({message:'there is not enough product'})} 
      //Si el producto no esta en el carrito
@@ -43,9 +47,9 @@ export const updateCart = async(req,res)=>{
         //Calcula el total de la compra
         const parcialTotal = cartW.products.reduce((total, item) => {
             const productPrice = product.price 
-            return (productPrice * item.quantity);
+            return (productPrice * quantity);
         }, 0);
-        cartW.total = cartW.total + parcialTotal;
+        cartW.total +=  parcialTotal;
 
         //Guarda la informacion del carrito 
         await cartW.save()

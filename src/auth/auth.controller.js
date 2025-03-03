@@ -33,7 +33,11 @@ export const login = async(req, res)=>{
         //Capturar los datos (body)
         let { username, password } = req.body
         //Validar que el usuario exista
-        let user = await User.findOne({username}) //findOne({username}) = ({username: username})
+        let user = await User.findOne({username}) 
+        if(user.status == false){
+            return res.send({message: 'this User is currently disable, contact with an admin.'})
+        }
+        //findOne({username}) = ({username: username})
         //Verificar que la contraseña coincida
         if(user && await checkPassword(user.password, password)) {
             let loggedUser = { //No puede ir data sensible
